@@ -2,14 +2,17 @@ import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 import { UserRouter } from './router/user.router';
+import { ConfigServer } from './config/config';
 
-class ServerBootstrap{
+class ServerBootstrap extends ConfigServer{
 
     public app: express.Application = express();
 
-    private port: number = 8000;
+    private port: number = this.getNumberEnv('PORT');
 
     constructor(){
+
+        super();
 
         this.app.use(express.json());
 
@@ -33,7 +36,7 @@ class ServerBootstrap{
 
         this.app.listen(this.port, ()=>{
 
-            console.log("Server is runnig on port => ", this.port);
+            console.log("Server is running on port => ", this.port);
 
         })
     }
